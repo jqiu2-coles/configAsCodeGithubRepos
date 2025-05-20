@@ -1,0 +1,29 @@
+parameters:
+  - name: REPONAME
+    type: string
+    default: "configAsCodeGithubRepos"
+
+jobs:
+  - job: Container
+    pool: 'Coles-Private-Hosted-Store-Team-NonProd-Scalable'
+    #container: cached-images.azr.cmltd.net.au/powershell-pipeline:latest
+    steps:
+      - checkout: self
+        fetchDepth: 1
+        persistCredentials: true
+
+      - task: Bash@3
+        displayName: Generate repos config json files
+        #condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+        env:
+          GITHUB_PAT: $(GITHUB_PAT)
+        inputs:
+          targetType: 'inline'
+          script: |
+            curl -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $(GITHUB_PAT)" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/$(GITHUB_USERNAME)/${{ parameters.REPONAME }}/branches/main/protection -o ${{ parameters.REPONAME }}_main.json
+            
+            cat ${{ parameters.REPONAME }}_main.json
