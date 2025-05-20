@@ -21,8 +21,8 @@ jobs:
           targetType: 'inline'
           script: |
             REPO_OWNER_REPO_NAME = ${{ parameters.REPO_OWNER_REPO_NAME }}
-            REPO_OWNER = ${ REPO_OWNER_REPO_NAME%-* }
-            REPO_NAME = ${ REPO_OWNER_REPO_NAME#*- }
+            REPO_OWNER = ${ REPO_OWNER_REPO_NAME%/* }
+            REPO_NAME = ${ REPO_OWNER_REPO_NAME#*/ }
             curl -L \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer $(GITHUB_PAT)" \
