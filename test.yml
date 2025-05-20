@@ -1,7 +1,10 @@
 parameters:
   - name: REPONAME
     type: string
-    default: "configAsCodeGithubRepos"
+    default: "kleene-cli"
+  - name: REPO_OWNER
+    type: string
+    default: "Coles-Store-Team-Platform"
 
 jobs:
   - job: Container
@@ -24,6 +27,6 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer $(GITHUB_PAT)" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/$(GITHUB_USERNAME)/${{ parameters.REPONAME }}/branches/main/protection -o ${{ parameters.REPONAME }}_main.json
+            https://api.github.com/repos/${{ parameters.REPO_OWNER }}/${{ parameters.REPONAME }}/branches/main/protection -o ${{ parameters.REPO_OWNER }}_${{ parameters.REPONAME }}_main.json
             
-            cat ${{ parameters.REPONAME }}_main.json
+            cat ${{ parameters.REPO_OWNER }}_${{ parameters.REPONAME }}_main.json
