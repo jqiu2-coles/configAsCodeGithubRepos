@@ -22,6 +22,7 @@ jobs:
           script: |
             IFS=/
             REPO_OWNER_REPO_NAME=${{ parameters.REPO_OWNER_REPO_NAME }}
+            set $REPO_OWNER_REPO_NAME
             REPO_OWNER=$1
             REPO_NAME=$2
             curl -L \
