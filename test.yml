@@ -26,7 +26,8 @@ jobs:
             set $REPO_OWNER_REPO_NAME
             REPO_OWNER=$1
             REPO_NAME=$2
-
+            unset IFS
+            
             # list all branches for the repo
             branch_names=($(curl -L \
             -H "Accept: application/vnd.github+json" \
