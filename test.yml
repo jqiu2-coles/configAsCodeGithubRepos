@@ -26,6 +26,7 @@ jobs:
             set $REPO_OWNER_REPO_NAME
             REPO_OWNER=$1
             REPO_NAME=$2
+
             # list all branches for the repo
             branch_names=($(curl -L \
             -H "Accept: application/vnd.github+json" \
@@ -34,7 +35,8 @@ jobs:
             https://api.github.com/repos/OWNER/REPO/branches \
             | jq -r '.[].name'))
             echo "all branches:"
-            printf "- %s\n" "${branch_names[@]}"
+            printf '%s\n' "${branch_names[@]}"
+
             # get branch protection rules json
             curl -L \
             -H "Accept: application/vnd.github+json" \
