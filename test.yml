@@ -41,6 +41,7 @@ jobs:
             
             for branch_name in "${branch_names[@]}"; do
               encoded_branch=$(printf %s ${branch_name} | jq -sRr @uri)
+              echo "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/branches/${encoded_branch}/protection"
               # get branch protection rules json
               curl -L \
               -H "Accept: application/vnd.github+json" \
