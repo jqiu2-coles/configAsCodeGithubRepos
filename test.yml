@@ -31,8 +31,8 @@ jobs:
             # list all branches for the repo
             mapfile -t branches_array < <(
                 page=1
-                while branches=$(curl -s -H "Authorization: Bearer $(GITHUB_PAT)" -H "X-GitHub-Api-Version: 2022-11-28" "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/branches?per_page=100&page=$page" | jq -r '.[].name' 2>/dev/null) && [ -n "$branches" ]; do 
-                    echo "$branches"
+                while branch=$(curl -s -H "Authorization: Bearer $(GITHUB_PAT)" -H "X-GitHub-Api-Version: 2022-11-28" "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/branches?per_page=100&page=$page" | jq -r '.[].name' 2>/dev/null) && [ -n "$branch" ]; do 
+                    echo "$branch"
                     page=$((page+1))
                 done | sort -u
             )
@@ -40,7 +40,7 @@ jobs:
             printf '%s\n' "${branches_array[@]}"
             
             
-            for branch_name in "${branches[@]}"; do
+            for branch_name in "${branches_array[@]}"; do
               encoded_branch=$(printf %s ${branch_name} | jq -sRr @uri)
               echo "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/branches/${encoded_branch}/protection"
               # get branch protection rules json
