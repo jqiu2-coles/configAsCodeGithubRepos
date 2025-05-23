@@ -29,7 +29,7 @@ jobs:
             unset IFS
             
             # list all branches for the repo
-            branches_array
+            branches_array=()
             page=1; while branches=$(curl -s -H "Authorization: Bearer $(GITHUB_PAT)" -H "X-GitHub-Api-Version: 2022-11-28" "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/branches?per_page=100&page=$page" | jq -r '.[].name' 2>/dev/null) && [ -n "$branches" ]; do branches_array+=($branches); page=$((page+1)); done | sort -u
             echo "all branches:"
             printf '%s\n' "${branches_array[@]}"
