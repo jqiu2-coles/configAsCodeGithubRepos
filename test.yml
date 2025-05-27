@@ -44,9 +44,19 @@ jobs:
               encoded_branch=$(printf %s ${branch_name} | jq -sRr @uri)
               echo "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/branches/${encoded_branch}/protection"
               # get branch protection rules json
-              curl -L \
-              -H "Accept: application/vnd.github+json" \
-              -H "Authorization: Bearer $(GITHUB_PAT)" \
-              -H "X-GitHub-Api-Version: 2022-11-28" \
-              https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/branches/${encoded_branch}/protection 
+              # save the result to json file if it's valid
+              response=$(curl -L \
+                -H "Accept: application/vnd.github+json" \
+                -H "Authorization: Bearer $(GITHUB_PAT)" \
+                -H "X-GitHub-Api-Version: 2022-11-28" \
+                https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/branches/${encoded_branch}/protection)
+
+              # check if the result contains error
+              status=$(echo "$response" | jq -r '.status // empty')
+              if [[ -n "$status" && ! "$status" =~ ^2 ]]; then
+                echo "ignore result due to：status = $status"
+              else
+                echo "$response" > ${REPO_OWNER}_${REPO_NAME}_${encoded_branch}.json
+                echo "saved result to ${REPO_OWNER}_${REPO_NAME}_${encoded_branch}.json"
+              fi
             done
