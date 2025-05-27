@@ -69,3 +69,15 @@ jobs:
           targetType: 'inline'
           script: |
             ls
+            git config --global user.name "$(GITHUB_USERNAME)"
+            git config --global user.email "$(GITHUB_EMAIL)"
+            CURRENT_URL=$(git remote get-url origin)
+            echo "Current Remote URL: $CURRENT_URL"
+            REPO_PATH=$(echo "$CURRENT_URL" | sed -E 's|.*[:/]([^/]+/[^/]+)(\.git)?/?$|\1|')
+            echo "Repository Path: $REPO_PATH"
+            PAT_URL="https://$(GITHUB_PAT)@github.com/$REPO_PATH.git"
+            git remote set-url origin "$PAT_URL"
+            git checkout main
+            git add .
+            git commit -m 'repo updated with the latest branch protection rules'
+            git push
