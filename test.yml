@@ -77,7 +77,8 @@ jobs:
             echo "Repository Path: $REPO_PATH"
             PAT_URL="https://$(GITHUB_PAT)@github.com/$REPO_PATH.git"
             git remote set-url origin "$PAT_URL"
-            git checkout -B main origin/main
+            git fetch origin
+            git checkout main
             git add .
             git commit -m 'repo updated with the latest branch protection rules'
             git push
