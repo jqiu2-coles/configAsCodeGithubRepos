@@ -5,7 +5,7 @@ parameters:
 
 resources:
 - repo: self
-  ref: main
+  ref: 'main'
 
 jobs:
   - job: Container
