@@ -3,6 +3,10 @@ parameters:
     type: string
     default: "Coles-Store-Team-Platform/kleene-cli"
 
+resources:
+- repo: self
+  ref: main
+
 jobs:
   - job: Container
     pool: 'Coles-Private-Hosted-Store-Team-NonProd-Scalable'
@@ -10,7 +14,6 @@ jobs:
     steps:
       - checkout: self
         fetchDepth: 1
-        ref: refs/heads/main
         persistCredentials: true
 
       - task: Bash@3
