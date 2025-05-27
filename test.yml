@@ -60,3 +60,12 @@ jobs:
                 echo "saved result to ${REPO_OWNER}_${REPO_NAME}_${encoded_branch}.json"
               fi
             done
+
+      - task: Bash@3
+        displayName: upload json files to Github repo
+        env:
+          GITHUB_PAT: $(GITHUB_PAT)
+        inputs:
+          targetType: 'inline'
+          script: |
+            ls
