@@ -3,19 +3,12 @@ parameters:
     type: string
     default: "Coles-Store-Team-Platform/kleene-cli"
 
-resources:
-  repositories:
-    - repository: configAsCodeGithubRepos
-      name: configAsCodeGithubRepos
-      type: git
-      ref: main
-
 jobs:
   - job: Container
     pool: 'Coles-Private-Hosted-Store-Team-NonProd-Scalable'
     #container: cached-images.azr.cmltd.net.au/powershell-pipeline:latest
     steps:
-      - checkout: configAsCodeGithubRepos
+      - checkout: self
         fetchDepth: 1
         persistCredentials: true
 
@@ -84,6 +77,8 @@ jobs:
             echo "Repository Path: $REPO_PATH"
             PAT_URL="https://$(GITHUB_PAT)@github.com/$REPO_PATH.git"
             git remote set-url origin "$PAT_URL"
+            git fetch origin
+            git checkout main
             git pull
             git add .
             git commit -m 'repo updated with the latest branch protection rules'
