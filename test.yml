@@ -4,15 +4,18 @@ parameters:
     default: "Coles-Store-Team-Platform/kleene-cli"
 
 resources:
-- repo: self
-  ref: 'main'
+  repositories:
+    - repository: configAsCodeGithubRepos
+      name: configAsCodeGithubRepos
+      type: git
+      ref: main
 
 jobs:
   - job: Container
     pool: 'Coles-Private-Hosted-Store-Team-NonProd-Scalable'
     #container: cached-images.azr.cmltd.net.au/powershell-pipeline:latest
     steps:
-      - checkout: self
+      - checkout: configAsCodeGithubRepos
         fetchDepth: 1
         persistCredentials: true
 
