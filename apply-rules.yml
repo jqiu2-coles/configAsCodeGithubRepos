@@ -31,4 +31,4 @@ jobs:
             -H "Authorization: Bearer $(GITHUB_PAT)" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             $URL \
-            -d '$(jq -c . $JSON_FILENAME)'
+            -d $(jq -c . $JSON_FILENAME)
