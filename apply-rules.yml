@@ -20,8 +20,10 @@ jobs:
         inputs:
           targetType: 'inline'
           script: |
+            ls
             JSON_FILENAME=${{ parameters.JSON_FILENAME }}
             # get URL
+            echo $JSON_FILENAME
             URL=$(cat JSON_FILENAME | jq '.url')
             echo $URL
             curl -L \
