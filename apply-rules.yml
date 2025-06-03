@@ -23,6 +23,7 @@ jobs:
             JSON_FILENAME=${{ parameters.JSON_FILENAME }}
             # get URL
             URL=$(cat JSON_FILENAME | jq '.url')
+            echo $URL
             curl -L \
             -X PUT \
             -H "Accept: application/vnd.github+json" \
